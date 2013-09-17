@@ -36947,20 +36947,23 @@ demo.client.open_eventbus = function open_eventbus(on_open) {
   });
   return vertx.client.eventbus.on_open.call(null, cljs.core.deref.call(null, demo.client.eb), on_open)
 };
-demo.client.append_message = function append_message(id, m) {
-  return enfocus.core.at.call(null, id, enfocus.core.append.call(null, enfocus.core.html.call(null, cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "div", "div", 1014003715), m], true))))
+demo.client.append_content = function append_content(id, content) {
+  return enfocus.core.at.call(null, id, enfocus.core.append.call(null, enfocus.core.html.call(null, cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "div", "div", 1014003715), content], true))))
 };
-demo.client.send_message = function send_message(m) {
-  return vertx.client.eventbus.publish.call(null, cljs.core.deref.call(null, demo.client.eb), "demo.request", m)
+demo.client.send_message = function send_message(message) {
+  return vertx.client.eventbus.publish.call(null, cljs.core.deref.call(null, demo.client.eb), "demo.request", message)
 };
 demo.client.attach_listeners = function attach_listeners() {
-  vertx.client.eventbus.on_message.call(null, cljs.core.deref.call(null, demo.client.eb), "demo.request", cljs.core.partial.call(null, demo.client.append_message, "#sent"));
-  return vertx.client.eventbus.on_message.call(null, cljs.core.deref.call(null, demo.client.eb), "demo.response", cljs.core.partial.call(null, demo.client.append_message, "#rcvd"))
+  vertx.client.eventbus.on_message.call(null, cljs.core.deref.call(null, demo.client.eb), "demo.request", cljs.core.partial.call(null, demo.client.append_content, "#sent"));
+  return vertx.client.eventbus.on_message.call(null, cljs.core.deref.call(null, demo.client.eb), "demo.response", cljs.core.partial.call(null, demo.client.append_content, "#rcvd"))
 };
-demo.client.init = function init() {
-  demo.client.open_eventbus.call(null, demo.client.attach_listeners);
+demo.client.attach_send_click = function attach_send_click() {
   return enfocus.core.at.call(null, "#send-message", enfocus.events.listen.call(null, new cljs.core.Keyword(null, "click", "click", 1108654330), function() {
     return demo.client.send_message.call(null, enfocus.core.from.call(null, "#message", enfocus.core.get_prop.call(null, new cljs.core.Keyword(null, "value", "value", 1125876963))))
   }))
+};
+demo.client.init = function init() {
+  demo.client.open_eventbus.call(null, demo.client.attach_listeners);
+  return demo.client.attach_send_click.call(null)
 };
 window.onload = demo.client.init;
