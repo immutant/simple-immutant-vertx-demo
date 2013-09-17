@@ -11,7 +11,7 @@
                  [hiccup "1.0.4"]
                  [enfocus "2.0.0-beta1"]]
   :plugins [[lein-cljsbuild "0.3.2"]]
-  :immutant {:init demo.core/init
+  :immutant {:init demo.init/init
              :context-path "/"}
   :cljsbuild {:builds [{:source-paths ["src-cljs"]
                         :compiler {:output-to "resources/public/client.js"}}]})
