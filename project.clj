@@ -5,12 +5,10 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1885"]
-                 [io.vertx/clojure-api "0.2.0-SNAPSHOT"]
+                 [io.vertx/clojure-api "0.2.0"]
                  [compojure "1.1.5"]
                  [hiccup "1.0.4"]
                  [enfocus "2.0.0-beta1"]]
-  :repositories [["sonatype snapshots"
-                  "https://oss.sonatype.org/content/repositories/snapshots"]]
   :plugins [[lein-cljsbuild "0.3.2"]]
   :immutant {:init demo.init/init
              :context-path "/"}
