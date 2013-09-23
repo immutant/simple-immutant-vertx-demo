@@ -13,7 +13,7 @@
 (defn append-content
   "Append the given content to the element specified by id"
   [id content]
-  (ef/at id (ef/append (ef/html [:div content]))))
+  (ef/at id (ef/append (ef/html [:div (str content)]))))
 
 (defn send-message
   "Sends a message to the request address."

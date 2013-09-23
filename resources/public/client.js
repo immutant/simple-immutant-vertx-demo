@@ -36967,7 +36967,7 @@ demo.client.open_eventbus = function() {
   return open_eventbus
 }();
 demo.client.append_content = function append_content(id, content) {
-  return enfocus.core.at.call(null, id, enfocus.core.append.call(null, enfocus.core.html.call(null, cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "div", "div", 1014003715), content], true))))
+  return enfocus.core.at.call(null, id, enfocus.core.append.call(null, enfocus.core.html.call(null, cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "div", "div", 1014003715), [cljs.core.str(content)].join("")], true))))
 };
 demo.client.send_message = function send_message(eb, message) {
   return vertx.client.eventbus.publish.call(null, eb, "demo.request", message)

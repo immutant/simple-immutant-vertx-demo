@@ -3,15 +3,15 @@
             [demo.bridge :as bridge]))
 
 (defn- daemon-up
-  [state]
-  (reset! state (bridge/init-bridge)))
+  [state opts]
+  (reset! state (bridge/init-bridge opts)))
 
 (defn- daemon-down [state]
   (.close (:server @state))
   (.stop (:vertx @state)))
 
-(defn start []
+(defn start [opts]
     (let [state (atom {})]
     (daemon/daemonize "bridge"
-                      #(daemon-up state)
+                      #(daemon-up state opts)
                       #(daemon-down state))))

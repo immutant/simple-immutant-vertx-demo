@@ -5,6 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1885"]
+                 [cheshire "5.2.0" :exclusions [com.fasterxml.jackson.core/jackson-core]]
                  [io.vertx/clojure-api "0.2.0"]
                  [compojure "1.1.5"]
                  [hiccup "1.0.4"]
