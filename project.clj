@@ -12,6 +12,7 @@
                  [enfocus "2.0.0-beta1"]]
   :plugins [[lein-cljsbuild "0.3.2"]]
   :immutant {:init demo.init/init
-             :context-path "/"}
+             :context-path "/"
+             :nrepl-port 5309}
   :cljsbuild {:builds [{:source-paths ["src-cljs"]
                         :compiler {:output-to "resources/public/client.js"}}]})
