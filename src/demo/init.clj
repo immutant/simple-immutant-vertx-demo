@@ -1,11 +1,17 @@
 (ns demo.init
   (:require [demo.web :as web]
             [demo.daemon :as daemon]
-            [demo.processing :as processing]))
+            [immutant.messaging :as msg]))
 
-(def destinations {:response-dest "topic.response"
-                   :request-dest "queue.request"})
+(def config {:response-dest "topic.response"
+             :request-dest "queue.request"
+             :process-fn (memfn toUpperCase)})
+
 (defn init []
+  (let [{:keys [request-dest response-dest process-fn]} config]
+    (msg/start request-dest)
+    (msg/start response-dest)
+    (msg/listen request-dest
+                #(msg/publish response-dest (process-fn %))))
   (web/start)
-  (processing/start destinations)
-  (daemon/start destinations))
+  (daemon/start config))
