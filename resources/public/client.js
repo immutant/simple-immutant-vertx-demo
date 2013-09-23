@@ -36939,31 +36939,49 @@ goog.require("cljs.core");
 goog.require("vertx.client.eventbus");
 goog.require("enfocus.events");
 goog.require("enfocus.core");
-demo.client.eb = cljs.core.atom.call(null, null);
-demo.client.open_eventbus = function open_eventbus(on_open) {
-  cljs.core.reset_BANG_.call(null, demo.client.eb, vertx.client.eventbus.eventbus.call(null, "http://localhost:8081/eventbus"));
-  vertx.client.eventbus.on_open.call(null, cljs.core.deref.call(null, demo.client.eb), function() {
-    return console.log("eventbus opened")
-  });
-  return vertx.client.eventbus.on_open.call(null, cljs.core.deref.call(null, demo.client.eb), on_open)
-};
+demo.client.open_eventbus = function() {
+  var open_eventbus__delegate = function(on_open) {
+    var eb = vertx.client.eventbus.eventbus.call(null, "http://localhost:8081/eventbus");
+    vertx.client.eventbus.on_open.call(null, eb, function() {
+      return console.log("eventbus opened")
+    });
+    return cljs.core.mapv.call(null, function(p1__4549_SHARP_) {
+      return vertx.client.eventbus.on_open.call(null, eb, function() {
+        return p1__4549_SHARP_.call(null, eb)
+      })
+    }, on_open)
+  };
+  var open_eventbus = function(var_args) {
+    var on_open = null;
+    if(arguments.length > 0) {
+      on_open = cljs.core.array_seq(Array.prototype.slice.call(arguments, 0), 0)
+    }
+    return open_eventbus__delegate.call(this, on_open)
+  };
+  open_eventbus.cljs$lang$maxFixedArity = 0;
+  open_eventbus.cljs$lang$applyTo = function(arglist__4550) {
+    var on_open = cljs.core.seq(arglist__4550);
+    return open_eventbus__delegate(on_open)
+  };
+  open_eventbus.cljs$core$IFn$_invoke$arity$variadic = open_eventbus__delegate;
+  return open_eventbus
+}();
 demo.client.append_content = function append_content(id, content) {
   return enfocus.core.at.call(null, id, enfocus.core.append.call(null, enfocus.core.html.call(null, cljs.core.PersistentVector.fromArray([new cljs.core.Keyword(null, "div", "div", 1014003715), content], true))))
 };
-demo.client.send_message = function send_message(message) {
-  return vertx.client.eventbus.publish.call(null, cljs.core.deref.call(null, demo.client.eb), "demo.request", message)
+demo.client.send_message = function send_message(eb, message) {
+  return vertx.client.eventbus.publish.call(null, eb, "demo.request", message)
 };
-demo.client.attach_listeners = function attach_listeners() {
-  vertx.client.eventbus.on_message.call(null, cljs.core.deref.call(null, demo.client.eb), "demo.request", cljs.core.partial.call(null, demo.client.append_content, "#sent"));
-  return vertx.client.eventbus.on_message.call(null, cljs.core.deref.call(null, demo.client.eb), "demo.response", cljs.core.partial.call(null, demo.client.append_content, "#rcvd"))
+demo.client.attach_listeners = function attach_listeners(eb) {
+  vertx.client.eventbus.on_message.call(null, eb, "demo.request", cljs.core.partial.call(null, demo.client.append_content, "#sent"));
+  return vertx.client.eventbus.on_message.call(null, eb, "demo.response", cljs.core.partial.call(null, demo.client.append_content, "#rcvd"))
 };
-demo.client.attach_send_click = function attach_send_click() {
+demo.client.attach_send_click = function attach_send_click(eb) {
   return enfocus.core.at.call(null, "#send-message", enfocus.events.listen.call(null, new cljs.core.Keyword(null, "click", "click", 1108654330), function() {
-    return demo.client.send_message.call(null, enfocus.core.from.call(null, "#message", enfocus.core.get_prop.call(null, new cljs.core.Keyword(null, "value", "value", 1125876963))))
+    return demo.client.send_message.call(null, eb, enfocus.core.from.call(null, "#message", enfocus.core.get_prop.call(null, new cljs.core.Keyword(null, "value", "value", 1125876963))))
   }))
 };
 demo.client.init = function init() {
-  demo.client.open_eventbus.call(null, demo.client.attach_listeners);
-  return demo.client.attach_send_click.call(null)
+  return demo.client.open_eventbus.call(null, demo.client.attach_listeners, demo.client.attach_send_click)
 };
 window.onload = demo.client.init;
