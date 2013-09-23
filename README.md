@@ -13,7 +13,9 @@ then browse to http://localhost:8080/.
 If you don't yet have Immutant installed, see
 [its install instructions](http://immutant.org/install/).
 
-For more info, see <http://immutant.org/news/2013/09/17/websocket-sockjs/>
+For more info, see
+<http://immutant.org/news/2013/09/17/websocket-sockjs/> and
+<http://immutant.org/news/2013/09/23/websocket-sockjs-part-deux/>.
 
 ## License
 
